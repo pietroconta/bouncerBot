@@ -129,6 +129,44 @@ client.on('message', message => {
             })
     }
 
+    else if(command == 'premium')
+    {
+        var refPaym = firebase.database().ref('server/' + server + '/prem');
+
+        refPaym.get().then((snapshot) => {
+            
+            if(snapshot.val() == true){
+             message.channel.send("You'r server is upgraded")
+            }
+
+            else{
+                message.channel.send("Follow this link and pay for get premium " + "https://bouncerbot.go-atcode.com/pay.php?server=" + server)
+
+                //message.channel.send('debug info: ' + snapshot.val())
+            }
+            
+          }).catch((error) => {
+            console.error(error);
+          });
+    }
+
+    else if(command == 'snd'){
+        if(suffix == 'all'){
+
+
+            message.guild.channels.cache.forEach( channel => {
+                if(channel.type == "GUILD_TEXT") {  
+                    channel.send(sParameter[1])
+                 }
+                });
+        
+            
+          
+            
+            
+        }
+    }
+
     else if(command == 'kck'){
         let member = message.mentions.members.first();
         if(!member) return message.reply("**Error #5:** \n *Please mention a valid member of this server*");
