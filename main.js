@@ -345,7 +345,7 @@ client.on('message', message => {
       const $ = cheerio.load(html); 
 
 
-      console.log(html)
+      //console.log(html)
       var user = html.graphql.user
 
       var vipSymbol = '';
