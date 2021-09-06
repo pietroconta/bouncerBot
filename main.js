@@ -336,7 +336,7 @@ client.on('message', message => {
     axios.get('https://www.instagram.com/' + sParameter[1]  +  '/?__a=1', {
 
     headers: {
-        Cookie: sessionId
+        Cookie: "49021692058%3A857bPQR9E5Nlk9%3A16"
     }
 }).then(response => {
       //console.log(response);
