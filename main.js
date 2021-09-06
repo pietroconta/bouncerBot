@@ -346,7 +346,7 @@ client.on('message', message => {
 
 
       console.log(html)
-      /*var user = html.graphql.user
+      var user = html.graphql.user
 
       var vipSymbol = '';
 
@@ -357,7 +357,7 @@ client.on('message', message => {
       message.channel.send("**Statistic of " + "@" + sParameter[1] + vipSymbol + ":** \n" + " Follower: *" + user.edge_followed_by.count + "* \n Following: *" + user.edge_follow.count + '*\n' + " Bio: *" + user.biography
       + '*\n' + "Bio Link: *" + user.external_url + "*\nCategory: *" + user.category_name + "*\nVip: *" + user.is_verified + '*\nPrivate Account: *' + user.is_private + '*')
 
-*/
+
      
     //  const pageObject = JSON.parse(pageData)
       
