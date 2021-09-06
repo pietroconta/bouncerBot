@@ -346,7 +346,7 @@ client.on('message', message => {
 
 
       //console.log(html)
-      user = html.graphql.user
+      var user = html.graphql.user
 
       var vipSymbol = '';
 
