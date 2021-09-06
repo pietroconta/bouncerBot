@@ -6,9 +6,9 @@
    "engines": {
     "node": "16.6.1"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+ "scripts": {
+    "start": "node index.js"
+},
   "author": "Conta",
   "license": "ISC",
   "dependencies": {
