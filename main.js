@@ -12,6 +12,9 @@
 import "firebase/auth";
 import "firebase/firestore";*/
 
+const { MessageEmbed } = require('discord.js');
+
+
 var firebase = require('firebase/app');
 require('firebase/auth');
 require('firebase/database');
@@ -129,6 +132,34 @@ client.on('message', message => {
             })
     }
 
+    else if(command == 'get'){
+        if(suffix == 'roles'){
+            
+
+            let rolemap = message.guild.roles.cache
+            .sort((a, b) => b.position - a.position)
+            .map(r => r)
+            .join("\n");
+            if (rolemap.length > 1024) rolemap = "To many roles to display";
+            if (!rolemap) rolemap = "No roles";
+    
+            const exampleEmbed = new MessageEmbed()
+            .setColor('#fffb00')
+            .addFields(
+                { name: 'Roles: ' + message.guild.roles.cache.size, value: rolemap },
+                
+            )
+            //.setImage('https://i.imgur.com/AfFp7pu.png')
+            //.setTimestamp()
+            //.setFooter('Some footer text here', 'https://i.imgur.com/AfFp7pu.png')
+            ;
+        
+        message.channel.send({ embeds: [exampleEmbed] });
+
+           
+        }
+    }
+
     else if(command == 'premium')
     {
         var refPaym = firebase.database().ref('server/' + server + '/prem');
@@ -242,6 +273,7 @@ client.on('message', message => {
         })
     }
 
+
     else if(command == 'set'){
 
         if(suffix == 'remove'){
@@ -276,15 +308,19 @@ client.on('message', message => {
 
                   message.channel.send('warnings enabled successfully :ballot_box_with_check:')
 
-        }
+             }
 
-        else if(sParameter[1] == 'error'){
+            /* else if(sParameter[1] == 'pcontroll'){
+                
+             }*/
+
+            else if(sParameter[1] == 'error'){
             firebase.database().ref('server/' + server + '/settings/error').set("on");
 
               message.channel.send('error enabled successfully :ballot_box_with_check:')
-        }
+            }
 
-        else if(sParameter[1] == 'help'){
+            else if(sParameter[1] == 'help'){
 
             helpCommand(suffix, "set add -keyWords", "warnings, error", "add or enable what the keyword describes")
 
@@ -332,21 +368,30 @@ client.on('message', message => {
 
         if(suffix == 'insta'){
 
-        
+            if(sParameter[1] == null || sParameter[1] == ''){
+                message.channel.send('**Error code #6:** \n *The parameter must exist*')
+                return
+            }
+            
+
+      
+            
+            
     axios.get('https://www.instagram.com/' + sParameter[1]  +  '/?__a=1', {
 
     headers: {
-        Cookie: sessionId
+        Cookie: 'sessionid=49021692058%3A857bPQR9E5Nlk9%3A16'
     }
 }).then(response => {
-      //console.log(response);
+     // console.log(response);
 
+   
       const html = response.data;
-      const $ = cheerio.load(html); 
 
 
       //console.log(html)
-      user = html.graphql.user
+      
+      var user = html.graphql.user
 
       var vipSymbol = '';
 
@@ -354,7 +399,7 @@ client.on('message', message => {
         vipSymbol = " ✅"
       }
 
-      message.channel.send("**Statistic of " + "@" + sParameter[1] + vipSymbol + ":** \n" + " Follower: *" + user.edge_followed_by.count + "* \n Following: *" + user.edge_follow.count + '*\n' + " Bio: *" + user.biography
+      message.channel.send("**Statistic of " + "@" + sParameter[1] + vipSymbol + ":** \n" + "Follower: *" + user.edge_followed_by.count + "* \nFollowing: *" + user.edge_follow.count + '*\n' + " Bio:*" + user.biography
       + '*\n' + "Bio Link: *" + user.external_url + "*\nCategory: *" + user.category_name + "*\nVip: *" + user.is_verified + '*\nPrivate Account: *' + user.is_private + '*')
 
 
@@ -363,7 +408,36 @@ client.on('message', message => {
       
       
          
+}).catch((error) => {
+    // Error 😨
+    if (error.response) {
+        /*
+         * The request was made and the server responded with a
+         * status code that falls out of the range of 2xx
+         */
+        
+        console.log(error.response.status);
+        if(error.response.status == 404){
+            
+            message.channel.send("```css\n[Error code #404_scpINSTA: The user appears to not exist on the instagram servers]```")
+        }
+        
+    } else if (error.request) {
+        /*
+         * The request was made but no response was received, `error.request`
+         * is an instance of XMLHttpRequest in the browser and an instance
+         * of http.ClientRequest in Node.js
+         */
+        console.log("2")
+        console.log(error.request);
+    } else {
+        // Something happened in setting up the request and triggered an Error
+        console.log("3")
+        console.log('Error', error.message);
+    }
+    //console.log(error.config);
 });
+        
 
         }
 
